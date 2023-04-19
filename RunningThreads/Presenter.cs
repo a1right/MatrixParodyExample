@@ -29,9 +29,9 @@ public class Presenter : IPresenter, IOutputQueue
             if (token.IsCancellationRequested)
                 break;
 
-            await Task.Yield();
+            await Task.Delay(10);
 
-            Show(token);
+            await Show(token);
         }
     }
     public async Task Show(CancellationToken token)
@@ -65,7 +65,7 @@ public class Presenter : IPresenter, IOutputQueue
             if (_outputQueue.TryDequeue(out OutputRequest request))
                 return request;
 
-            await Task.Yield();
+            await Task.Delay(10);
         }
 
         return null;
