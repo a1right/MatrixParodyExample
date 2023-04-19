@@ -12,8 +12,9 @@ namespace ThreadsExample
                 presenter.QueueOutput(new OutputRequest()
                 {
                     Column = column * 3,
-                    Line = i % 30,
+                    Line = i % 40,
                     Symbol = (char)Random.Shared.Next(1, 256),
+                    ConsoleColor = (ConsoleColor)(Random.Shared.Next(1, 14))
                 });
                 Thread.Sleep(delay);
             }
@@ -35,7 +36,7 @@ namespace ThreadsExample
 
             for (int i = 0; i < 25; i++)
             {
-                var delay = Random.Shared.Next(50, 800);
+                var delay = Random.Shared.Next(50, 300);
                 var column = i;
                 var thread = new Thread(() => Print(presenter, column, delay)) { IsBackground = true };
                 thread.Start();
