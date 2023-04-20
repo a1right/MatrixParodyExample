@@ -29,17 +29,17 @@ public class Presenter : IPresenter, IOutputQueue
             if (token.IsCancellationRequested)
                 break;
 
-            await Task.Delay(10);
+            await Task.Yield();
 
-            await Show(token);
+            await ShowNext(token);
         }
     }
-    public async Task Show(CancellationToken token)
+    public async Task ShowNext(CancellationToken token)
     {
         if (_outputQueue.Count <= 0) return;
         if (_printers.Length <= 0) return;
 
-        var output = await WaitNextAsync(token);
+        var output = await WaitNext(token);
 
         if (output is null)
             return;
@@ -53,8 +53,6 @@ public class Presenter : IPresenter, IOutputQueue
     {
         _outputQueue.Enqueue(request);
     }
-
-    private async Task<OutputRequest> WaitNextAsync(CancellationToken token) => await Task.Run(() => WaitNext(token));
     private async Task<OutputRequest> WaitNext(CancellationToken token)
     {
         while (true)
@@ -65,7 +63,7 @@ public class Presenter : IPresenter, IOutputQueue
             if (_outputQueue.TryDequeue(out OutputRequest request))
                 return request;
 
-            await Task.Delay(10);
+            await Task.Yield();
         }
 
         return null;

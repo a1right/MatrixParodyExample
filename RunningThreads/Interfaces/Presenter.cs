@@ -2,7 +2,7 @@
 {
     public interface IPresenter
     {
-        Task Show(CancellationToken token);
+        Task ShowNext(CancellationToken token);
         Task StartListening(CancellationToken token);
     }
 }
